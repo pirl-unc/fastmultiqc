@@ -1,0 +1,66 @@
+#######################################
+# Example MultiQC Configuration File
+#######################################
+
+# This file can be saved either in the MultiQC installation
+# directory, or as ~/.multiqc_config.yaml
+
+# Configuration settings are taken from the following locations, in order:
+# - Hardcoded in MultiQC (multiqc/utils/config.py)
+# - <installation_dir>/multiqc_config.yaml
+# - ~/.multiqc_config.yaml
+# - Command line options
+
+# Note that all of the values below are set to the MultiQC defaults.
+# It's recommended that you delete any that you don't need.
+
+---
+
+# Cleaning options for sample names. Typically, sample names are detected
+# from an input filename. If any of these strings are found, they and any
+# text to their right will be discarded.
+# For example - file1.fq.gz_trimmed.bam_deduplicated_fastqc.zip
+# would be cleaned to 'file1'
+# Two options here - fn_clean_exts will replace the defaults,
+# extra_fn_clean_exts will append to the defaults
+extra_fn_clean_exts:
+    - .gz
+    - .fastq
+    - .fq
+    - .bam
+    - .sam
+    - .sra
+    - _tophat
+    - _star_aligned
+    - _fastqc
+    - type: replace
+      pattern: '.sorted'
+    - type: regex
+      pattern: '^Sample_\d+'
+    - type: regex
+      pattern: '_aligned$'
+    - type: regex
+      pattern: '_001$'
+
+# Specify a custom logo to add to reports (uncomment to use)
+custom_logo: '/import/IMGF_logo.tiff'         # '/path/to/logo.png'
+custom_logo_url: 'http://www.unclineberger.org'     # 'https://www.example.com'
+custom_logo_title: null   # 'Our Institute Name'
+subtitle:  null # Grey text below title
+intro_text: 'Aggregated results from QC analyses.'          # Set to False to remove, or your own text
+
+# Add generic information to the top of reports
+#report_header_info:
+#    - Example Config:: 'This is arbitrary'
+#    - Another field:: 'Loaded from <code>multiqc_config_example.yaml</code>'
+#    - Something different:: 'You can put any key-value pairs here'
+#    - Want to know more?: 'See the <a href="http://multiqc.info/docs" #target="_blank">MultiQC docs</a>'
+
+# Overwrite the defaults of which table columns are visible by default
+table_columns_visible:
+    FastQC:
+        percent_duplicates: True
+        percent_gc: True
+        avg_sequence_length: True
+        percent_fails: True
+        total_sequences: True
