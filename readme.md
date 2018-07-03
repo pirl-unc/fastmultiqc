@@ -1,0 +1,1 @@
+This worked well prior to aquaseq.  It should have it's group options and the seqware user removed.
