@@ -1,1 +1,1 @@
-This worked well prior to aquaseq.  It should have it's group options and the seqware user removed.
+This worked well prior to aquaseq.  It needs to have the group options and the seqware user removed from the dockerfile.
