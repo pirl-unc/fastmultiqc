@@ -28,20 +28,16 @@ while IFS= read -r -d $'\0' path; do
     sample_base_name=${file_name%$FASTQ_ENDING}
     output_subdir=${OUTPUT_DIR}/${sample_base_name}
     mkdir -p ${output_subdir}
-    chmod 777 ${output_subdir}
     fastqc --outdir=${output_subdir} $path
   fi
 done < <(find ${INPUT_DIR} -type f -print0)
 
 multiqc_output_dir=${OUTPUT_DIR}/multiqc/
 mkdir -p ${multiqc_output_dir}
-chmod 777 ${multiqc_output_dir}
+
 multiqc -f \
   -i "${TITLE}" \
   -c /import/multiqc_config.yaml \
   -o ${multiqc_output_dir} \
   -n ${BASE_FILE_NAME} \
   ${OUTPUT_DIR}; wait
-chmod 666 ${multiqc_output_dir}/${BASE_FILE_NAME}.html
-chmod 777 ${multiqc_output_dir}/${BASE_FILE_NAME}_data
-chmod 666 ${multiqc_output_dir}/${BASE_FILE_NAME}_data/*
