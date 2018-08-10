@@ -2,6 +2,8 @@
 # debbian jesse background
 FROM openjdk:8
 
+USER root
+
 #Install libraries
 RUN \
   apt-get update && apt-get install -y --no-install-recommends \
@@ -34,31 +36,6 @@ RUN cd /usr/local && \
     rm -rf /tmp/fastqc_*.zip
 
 COPY /import/* /import/
-
-# setup user for lbgcluster
-RUN groupadd -g 1000 lbg \
-   && groupadd -g 1026 nextgenseq \
-   && groupadd -g 1062 seqgroup \
-   && groupadd -g 1063 clinseq \
-   && groupadd -g 1075 datasharing \
-   && groupadd -g 2650 lbginrc \
-   && groupadd -g 2782 lbgseq \
-   && groupadd -g 2790 seq-in \
-   && groupadd -g 2791 seq-out \
-   && groupadd -g 3011 lccc_instrument \
-   && groupadd -g 3026 lccc_gpath \
-   && groupadd -g 3029 bioinf \
-   && groupadd -g 3035 lccc_ram \
-   && useradd -u 209755 -g 1000 \
-              -G 1026,1062,1063,1075,2650,2782,2790,2791,3011,3026,3029,3035 \
-              -s /bin/bash -N -c "Service account for Sequencing" seqware
-
-RUN mkdir -p /home/seqware \
-   && chown seqware /home/seqware \
-   && chgrp lbg /home/seqware \
-   && chmod 775 /home/seqware
-
-USER seqware
 
 ENV INPUT_DIR "."
 ENV OUTPUT_DIR "."
