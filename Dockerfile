@@ -41,25 +41,8 @@ ENV INPUT_DIR "."
 ENV OUTPUT_DIR "."
 ENV BASE_FILE_NAME "fastmultiqc"
 ENV TITLE "FastMultiQC"
-ENV FASTQ_ENDING ".fastq.gz"
+ENV FASTQ_ENDING "*.fastq.gz"
+ENV THREAD_NUM 1
 
 CMD \
-  bash -c 'source /import/fastmultiqc.sh -i "${INPUT_DIR}" -o "${OUTPUT_DIR}" -f "${BASE_FILE_NAME}" -t "${TITLE}"'
-    
-    
-#INPUT_DIR="/datastore/nextgenout4/HTSF/IMGF/171117_UNC21_0483_000000000-BFMHB"
-#OUTPUT_DIR="/datastore/alldata/shiny-server/rstudio-common/dbortone/projects/fastmultiqc/results/Sharpless_IP61_Reseq"
-#BASE_FILE_NAME="Sharpless_IP61_Reseq"
-#TITLE="Sharpless Reseqencing"
-#FASTQ_ENDING=".fastq.gz"
-
-#mkdir -p ${OUTPUT_DIR}
-#chmod 777 ${OUTPUT_DIR}
-#docker run --rm=true \
-#-v /datastore:/datastore:shared \
-#-e INPUT_DIR="${INPUT_DIR}" \
-#-e OUTPUT_DIR="${OUTPUT_DIR}" \
-#-e BASE_FILE_NAME="${BASE_FILE_NAME}" \
-#-e TITLE="${TITLE}" \
-#-e FASTQ_ENDING="${FASTQ_ENDING}" \
-#fastmultiqc:1
+  bash -c 'source /import/fastmultiqc.sh -i "${INPUT_DIR}" -o "${OUTPUT_DIR}" -f "${BASE_FILE_NAME}" -t "${TITLE}" -e "${FASTQ_ENDING}" -p "${THREAD_NUM}"'
