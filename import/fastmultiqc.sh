@@ -21,7 +21,6 @@ echo ""
 echo "Running FastQC on the following folder:"
 echo ${INPUT_DIR}
 
-<<<<<<< HEAD
 # TODO: get it to detect the number of threads available
 # my_threads=$(nproc --all) this does the whole node
 # echo $my_threads
@@ -42,22 +41,7 @@ find $INPUT_DIR -type f -name $FASTQ_ENDING -print0 | xargs -0 -P ${THREAD_NUM} 
 
 multiqc_output_dir=${OUTPUT_DIR}/multiqc/
 mkdir -p ${multiqc_output_dir}
-=======
-while IFS= read -r -d $'\0' path; do
-  if [[ "$path" = *${FASTQ_ENDING} ]]; then
-    file_name=$(basename $path)
-    echo "Running FastQC on ${file_name}"
-    sample_base_name=${file_name%$FASTQ_ENDING}
-    output_subdir=${OUTPUT_DIR}/${sample_base_name}
-    mkdir -p ${output_subdir}
-    fastqc --outdir=${output_subdir} $path
-  fi
-done < <(find ${INPUT_DIR} -type f -print0)
 
-multiqc_output_dir=${OUTPUT_DIR}/multiqc/
-mkdir -p ${multiqc_output_dir}
-
->>>>>>> aa109d456aa0295f65ed91d6abe1ea0947ea9914
 multiqc -f \
   -i "${TITLE}" \
   -c /import/multiqc_config.yaml \
