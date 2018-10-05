@@ -1,3 +1,9 @@
+TODO:
+This has been pulling twice the number of cpu that are requested.  Need to set 
+srun to twice as many threads as the docker run command.  Alan said this could 
+be a java garbage collection problem. 
+
+
 This runs fastqc and then multiqc on all of the contents in a directory  
 
 INPUT_DIR="/your/input/folder"  
@@ -9,7 +15,7 @@ THREAD_NUM=8
 
 mkdir -p ${OUTPUT_DIR}  
 
-srun --pty -c ${THREAD_NUM} --mem-per-cpu ${THREAD_NUM}g -p docker \
+srun --pty -c ${THREAD_NUM} --mem-per-cpu 1g -p docker \
 docker run --rm=true \
 -v /datastore:/datastore:shared \
 -e INPUT_DIR="${INPUT_DIR}" \
