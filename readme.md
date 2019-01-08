@@ -52,9 +52,11 @@ FASTQ_ENDING=".fastq.gz"
 THREAD_NUM=1
 
 So you can just get away with:  
+``` bash
 srun --pty -c 1 --mem-per-cpu 1g -p docker \
 docker run --rm=true \
 -v /datastore:/datastore:shared \
 -e INPUT_DIR=/datastore/nextgenout4/HTSF/IMGF/170510_UNC21_0420_000000000-B5RJV \
 -e OUTPUT_DIR=/datastore/alldata/shiny-server/rstudio-common/dbortone/docker/fastmultiqc/test \
 dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+```
