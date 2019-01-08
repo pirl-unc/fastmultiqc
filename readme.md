@@ -6,6 +6,7 @@ be a java garbage collection problem.
 
 This runs fastqc and then multiqc on all of the contents in a directory  
 
+''' bash
 INPUT_DIR="/your/input/folder"  
 OUTPUT_DIR="/your/output/folder"  
 BASE_FILE_NAME="base_name"  
@@ -25,6 +26,7 @@ docker run --rm=true \
 -e FASTQ_ENDING="${FASTQ_ENDING}" \
 -e THREAD_NUM="${THREAD_NUM}" \
 dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+'''
 
 - or -
 
