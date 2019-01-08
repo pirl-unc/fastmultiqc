@@ -28,7 +28,7 @@ docker run --rm=true \
 dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
 ```
 
-- or -
+OR...
   
 ``` bash
 srun --pty -c 8 --mem-per-cpu 1g -p docker \
