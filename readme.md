@@ -3,8 +3,8 @@ This has been pulling twice the number of cpu that are requested.  Need to set
 srun to twice as many threads as the docker run command.  Alan said this could 
 be a java garbage collection problem. 
 
-
-This runs fastqc and then multiqc on all of the contents in a directory  
+When logged in to login.bioinf.unc.edu pasting the following code in the terminal 
+will run fastqc and then multiqc on all of the contents in a directory:  
 
 ``` bash
 INPUT_DIR="/your/input/folder"  
