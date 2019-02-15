@@ -1,51 +1,54 @@
-This runs fastqc and then multiqc on all of the contents in a directory  
+while getopts i:o:f:t:e:p: option
+do
+ case "${option}"
+ in
+ i) INPUT_DIR=${OPTARG};;
+ o) OUTPUT_DIR=${OPTARG};;
+ f) BASE_FILE_NAME=${OPTARG};;
+ t) TITLE=${OPTARG};;
+ e) FASTQ_ENDING=${OPTARG};;
+ p) THREAD_NUM=${THREAD_NUM};;
+ esac
+done
 
-INPUT_DIR="/your/input/folder"  
-OUTPUT_DIR="/your/output/folder"  
-BASE_FILE_NAME="base_name"  
-TITLE="Title of report"  
-FASTQ_ENDING="*.fastq.gz"  
-THREAD_NUM=8
+echo "INPUT_DIR: ${INPUT_DIR}"
+echo "OUTPUT_DIR: ${OUTPUT_DIR}"
+echo "BASE_FILE_NAME: ${BASE_FILE_NAME}"
+echo "TITLE: ${TITLE}"
+echo "FASTQ_ENDING: ${FASTQ_ENDING}"
+echo "THREAD_NUM: ${THREAD_NUM}"
+echo ""
+echo "Running FastQC on the following folder:"
+echo ${INPUT_DIR}
 
-mkdir -p ${OUTPUT_DIR}  
+# TODO: get it to detect the number of threads available
+# my_threads=$(nproc --all) this does the whole node
+# echo $my_threads
 
-srun --pty -c ${THREAD_NUM} --mem-per-cpu ${THREAD_NUM}g -p docker \
-docker run --rm=true \
--v /datastore:/datastore:shared \
--e INPUT_DIR="${INPUT_DIR}" \
--e OUTPUT_DIR="${OUTPUT_DIR}" \
--e BASE_FILE_NAME="${BASE_FILE_NAME}" \
--e TITLE="${TITLE}" \
--e FASTQ_ENDING="${FASTQ_ENDING}" \
--e THREAD_NUM="${THREAD_NUM}" \
-dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+run_fastqc() {
+  path=$1
+  file_name=$(basename $path)
+  echo "Running FastQC on ${file_name}"
+  sample_base_name=${file_name%$FASTQ_ENDING}
+  output_subdir=${OUTPUT_DIR}/${sample_base_name}
+  mkdir -p ${output_subdir}
+  fastqc --outdir=${output_subdir} $path &> ${output_subdir}/fastqc_stdouterr.txt
+}
 
-- or -
+export -f run_fastqc
 
-srun --pty -c 8 --mem-per-cpu 1g -p docker \
-docker run --rm=true \
--v /datastore:/datastore:shared \
--e INPUT_DIR=/datastore/nextgenout4/HTSF/IMGF/170510_UNC21_0420_000000000-B5RJV \
--e OUTPUT_DIR=/datastore/alldata/shiny-server/rstudio-common/dbortone/docker/fastmultiqc/test \
--e BASE_FILE_NAME=base_name \
--e TITLE="Title of report" \
--e FASTQ_ENDING="*.fastq.gz" \
--e THREAD_NUM=8 \
-dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+# halving the number of threads available so that there is room for garbage collection
+# n=2
+# THREAD_NUM=$(echo "scale=0;THREAD_NUM/$n" | bc)
 
+find $INPUT_DIR -type f -name $FASTQ_ENDING -print0 | xargs -0 -P ${THREAD_NUM} -n 1 -I {} bash -c 'run_fastqc "$@"' _ {}
 
-The default values are:  
-INPUT_DIR="."  
-OUTPUT_DIR="."  
-BASE_FILE_NAME="fastmultiqc"  
-TITLE="FastMultiQC"  
-FASTQ_ENDING=".fastq.gz"  
-THREAD_NUM=1
+multiqc_output_dir=${OUTPUT_DIR}/multiqc/
+mkdir -p ${multiqc_output_dir}
 
-So you can just get away with:  
-srun --pty -c 1 --mem-per-cpu 1g -p docker \
-docker run --rm=true \
--v /datastore:/datastore:shared \
--e INPUT_DIR=/datastore/nextgenout4/HTSF/IMGF/170510_UNC21_0420_000000000-B5RJV \
--e OUTPUT_DIR=/datastore/alldata/shiny-server/rstudio-common/dbortone/docker/fastmultiqc/test \
-dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+multiqc -f \
+  -i "${TITLE}" \
+  -c /import/multiqc_config.yaml \
+  -o ${multiqc_output_dir} \
+  -n ${BASE_FILE_NAME} \
+  ${OUTPUT_DIR}; wait

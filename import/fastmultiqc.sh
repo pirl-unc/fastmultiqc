@@ -37,7 +37,7 @@ run_fastqc() {
 
 export -f run_fastqc
 
-find $INPUT_DIR -type f -name $FASTQ_ENDING -print0 | xargs -0 -P ${THREAD_NUM} -n 1 -I {} bash -c 'run_fastqc "$@"' _ {}
+find -L "${INPUT_DIR}" -type f -name "${FASTQ_ENDING}" -print0 | xargs -0 -P ${THREAD_NUM} -n 1 -I {} bash -c 'run_fastqc "$@"' _ {}
 
 multiqc_output_dir=${OUTPUT_DIR}/multiqc/
 mkdir -p ${multiqc_output_dir}
