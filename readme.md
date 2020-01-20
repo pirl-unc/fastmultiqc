@@ -26,7 +26,7 @@ docker run --rm=true \
 -e TITLE="${TITLE}" \
 -e FASTQ_ENDING="${FASTQ_ENDING}" \
 -e THREAD_NUM="${THREAD_NUM}" \
-dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+dockerreg.bioinf.unc.edu:5000/fastmultiqc:3
 ```
 
 OR...
@@ -41,7 +41,7 @@ docker run --rm=true \
 -e TITLE="Title of report" \
 -e FASTQ_ENDING="*.fastq.gz" \
 -e THREAD_NUM=8 \
-dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
+dockerreg.bioinf.unc.edu:5000/fastmultiqc:3
 ```
 
 The default values are:  
@@ -61,4 +61,3 @@ docker run --rm=true \
 -e OUTPUT_DIR=/datastore/alldata/shiny-server/rstudio-common/dbortone/docker/fastmultiqc/test \
 dockerreg.bioinf.unc.edu:5000/fastmultiqc:2
 ```
->>>>>>> c596bbd753f9ff5dbbb9482f671d090ab0405b65

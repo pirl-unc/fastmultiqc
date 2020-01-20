@@ -43,8 +43,8 @@ extra_fn_clean_exts:
       pattern: '_001$'
 
 # Specify a custom logo to add to reports (uncomment to use)
-custom_logo: '/import/IMGF_logo.tiff'         # '/path/to/logo.png'
-custom_logo_url: 'http://www.unclineberger.org'     # 'https://www.example.com'
+# custom_logo: '/import/IMGF_logo.tiff'         # '/path/to/logo.png'
+# custom_logo_url: 'http://www.unclineberger.org'     # 'https://www.example.com'
 custom_logo_title: null   # 'Our Institute Name'
 subtitle:  null # Grey text below title
 intro_text: 'Aggregated results from QC analyses.'          # Set to False to remove, or your own text
