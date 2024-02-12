@@ -1,3 +1,4 @@
+* note originally this repository was located at github.com/Benjamin-Vincent-Lab/fastmultiqc, moved to pirl-unc on 2/12/2024
 
 TODO:
 This has been pulling twice the number of cpu that are requested.  Need to set 
